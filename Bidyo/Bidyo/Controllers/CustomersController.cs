@@ -4,36 +4,41 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Bidyo.Models;
+using System.Data.Entity;
 
 namespace Bidyo.Controllers
 {
     public class CustomersController : Controller
     {
+        private ApplicationDbContext _context;
+
+        public CustomersController()
+        {
+            _context = new ApplicationDbContext();
+        }
+
+        //dispose _context
+        protected override void Dispose(bool disposing)
+        {
+            _context.Dispose();
+        }
+
         // GET: Customers
         public ActionResult Index()
         {
-            var customers = GetCustomers();
+            var customers = _context.Customers.Include(c => c.MembershipType).ToList();
 
             return View(customers);
         }
 
         public ActionResult Details( int id)
         {
-            var customer = GetCustomers().SingleOrDefault(c => c.Id == id);
+            var customer = _context.Customers.Include(c => c.MembershipType).SingleOrDefault(c => c.Id == id);
 
             if (customer == null) return HttpNotFound();
 
             return View(customer);
         }
-
-        //Create a list of customers
-        private IEnumerable<Customer> GetCustomers()
-        {
-            return new List<Customer>
-            {
-                new Customer {Id = 1, Name = "A Philip Rose"},
-                new Customer { Id = 2, Name = "Kenneth" }
-            };
-        }
+        
     }
 }

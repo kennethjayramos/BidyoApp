@@ -4,28 +4,41 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Bidyo.Models;
+using System.Data.Entity;
 
 namespace Bidyo.Controllers
 {
     public class MoviesController : Controller
     {
+        private ApplicationDbContext _context;
+
+        public MoviesController()
+        {
+            _context = new ApplicationDbContext();
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            _context.Dispose();
+        }
+
         // GET: Movies
         public ActionResult Index()
         {
-            var movies = GetMovies();
+            var movies = _context.Movies.Include(m => m.Genre).ToList();
 
             return View(movies);
         }
 
-        //Create a list of movies
-        private IEnumerable<Movie> GetMovies()
+        //Movie details
+        public ActionResult Details(int id)
         {
-            return new List<Movie>
-            {
-                new Movie { Id = 1 , Name = "Parasite"},
-                new Movie { Id = 2, Name = "Joker"},
-                new Movie { Id = 3, Name = "1917"}
-            };
+            var movie = _context.Movies.Include(m => m.Genre).SingleOrDefault(m => m.Id == id);
+
+            if (movie == null) return HttpNotFound();
+
+            return View(movie);
         }
+
     }
 }
