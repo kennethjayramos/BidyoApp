@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data.Entity;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -25,7 +26,7 @@ namespace Bidyo.Controllers.API
         // return a list of customers
         public IHttpActionResult GetCustomers()
         {
-            var customersDtos = _context.Customers.ToList().Select(Mapper.Map<Customer, CustomerDto>);
+            var customersDtos = _context.Customers.Include(c => c.MembershipType).ToList().Select(Mapper.Map<Customer, CustomerDto>);
 
             return Ok(customersDtos);
         }

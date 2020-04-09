@@ -7,6 +7,7 @@ using System.Web.Http;
 using AutoMapper;
 using Bidyo.Models;
 using Bidyo.Dtos;
+using System.Data.Entity;
 
 namespace Bidyo.Controllers.API
 {
@@ -25,7 +26,7 @@ namespace Bidyo.Controllers.API
         //return a list of movies
         public IHttpActionResult GetMovies()
         {
-            var moviesDtos = _context.Movies.ToList().Select(Mapper.Map<Movie, MovieDto>);
+            var moviesDtos = _context.Movies.Include(m => m.Genre).ToList().Select(Mapper.Map<Movie, MovieDto>);
 
             return Ok(moviesDtos);
         }
