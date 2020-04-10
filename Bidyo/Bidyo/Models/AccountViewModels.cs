@@ -8,6 +8,10 @@ namespace Bidyo.Models
         [Required]
         [Display(Name = "Email")]
         public string Email { get; set; }
+
+        [Required]
+        [Display(Name = "User Nickname")]
+        public string Nickname { get; set; }
     }
 
     public class ExternalLoginListViewModel
