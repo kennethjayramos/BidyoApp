@@ -65,6 +65,10 @@ namespace Bidyo.Models
     public class RegisterViewModel
     {
         [Required]
+        [Display(Name = "User Nickname")]
+        public string Nickname { get; set; }
+
+        [Required]
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
