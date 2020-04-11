@@ -56,7 +56,7 @@ namespace Bidyo
 
             app.UseFacebookAuthentication(
                appId: "665651790886966",
-               appSecret: "967403058c01c71541e313ac708104c2");
+               appSecret: "665651790886966");
 
             //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
             //{
